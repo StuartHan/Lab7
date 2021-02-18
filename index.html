@@ -79,37 +79,130 @@
 
     <!-- Main Script -->
     <script type="module">
+/******************************************************************************
+ *                        START OF STUDENT'S WORK
+ *****************************************************************************/
       // This function should fetch all of the data from the given endpoint.
       // From the 4 CRUD actions, this is the READ action, and uses the GET http method.
       // The main difference from fetchOne() will be the URL you request from; check
       // the writeup to view the URL pattern for fetch one and fetch all
       function fetchAll() {
-        // TODO
+        document.getElementById("recordForm"       ).style.display = "none";
+        document.getElementById("recordIDcontainer").style.display = "none";
+
+        let endpoint = document.getElementById("endpoint");
+        let output   = document.getElementById("output");
+
+        fetch(endpoint.value, {method: "GET"})
+        .then(response => {
+          if(!response.ok) {
+            throw new Error (response.status + " " + response.statusText);
+          }
+          response.json().then(data => output.innerHTML = JSON.stringify(data));
+        })
+        .catch(error => {
+          output.innerHTML = error;
+        });
       }
+
+
 
       // This function should fetch one entry from the given endpoint.
       // From the 4 CRUD actions, this is the READ action, and uses the GET http method.
       // The main difference from fetchAll() will be the URL you request from; check
       // the writeup to view the URL pattern for fetch one and fetch all
       function fetchOne() {
-        // TODO
+        document.getElementById("recordForm"       ).style.display = "none";
+        document.getElementById("recordIDcontainer").style.display = "none";
+
+        let endpoint = document.getElementById("endpoint");
+        let output   = document.getElementById("output");
+
+        let id = window.prompt("Enter record id");
+        fetch(endpoint.value + "/" + id, {method: "GET"})
+        .then(response => {
+          if(!response.ok) {
+            throw new Error (response.status + " " + response.statusText);
+          }
+          response.json().then(data => output.innerHTML = JSON.stringify(data));
+        })
+        .catch(error => {
+          output.innerHTML = error;
+        });
+
+        document.getElementById("action").value = "List All";
       }
+
+
 
       // This function should use fetch to create one entry in the given endpoint.
       // From the 4 CRUD actions, this is the CREATE action, and uses the POST http method.
       // The main difference from updateRecord() will be the URL you send data to; check
       // the writeup to view the URL pattern for create and update
-      function createRecord() {
-        // TODO
+      function createRecord(act) {
+        if(act == "show") {
+          document.getElementById("recordForm"       ).style.display = "block";
+          document.getElementById("recordIDcontainer").style.display = "none";
+          return;
+        }
+
+        let endpoint = document.getElementById("endpoint");
+        let output   = document.getElementById('output');
+        
+        let author   = document.getElementById('author');
+        let title    = document.getElementById('title');
+        let property = {'author': author.value, 'title': title.value};
+
+        fetch(endpoint.value, {method : "post", 
+                               headers: {"Content-type": "application/json"}, 
+                               body   : JSON.stringify(property)})
+          .then(response => {
+          if(!response.ok) {
+            throw new Error (response.status + " " + response.statusText);
+          }
+          response.json().then(data => output.innerHTML = JSON.stringify(data));
+        })
+        .catch(error => {
+          output.innerHTML = error;
+        });
       }
+
+
 
       // This function should use fetch to update one existing entry in the given endpoint.
       // From the 4 CRUD actions, this is the UPDATE action, and uses the PUT http method.
       // The main difference from createRecord() will be the URL you send data to; check
       // the writeup to view the URL pattern for create and update
-      function updateRecord() {
-        // TODO
+      function updateRecord(act) {
+        if(act == "show") {
+          document.getElementById("recordForm"       ).style.display = "block";
+          document.getElementById("recordIDcontainer").style.display = "block";
+          return;
+        }
+
+        let endpoint = document.getElementById("endpoint");
+        let output   = document.getElementById('output');
+        
+        let author   = document.getElementById('author');
+        let title    = document.getElementById('title');
+        let property = {'author': author.value, 'title': title.value};
+        let recordID = document.getElementById('recordID');
+
+        fetch((endpoint.value + "/" + recordID.value), {method : "put", 
+                                                        headers: {"Content-type": "application/json"}, 
+                                                        body   : JSON.stringify(property)})
+          .then(response => {
+          if(!response.ok) {
+            throw new Error (response.status + " " + response.statusText);
+          }
+          response.json().then(data => output.innerHTML = JSON.stringify(data));
+        })
+        .catch(error => {
+          output.innerHTML = error;
+        });
       }
+
+
 
       // This function should use fetch to delete one existing entry in the given endpoint.
       // From the 4 CRUD actions, this is the DELETE action, and uses the DELETE http method.
@@ -117,8 +210,32 @@
       // request; check the writeup to view the URL pattern for get one and delete. THERE IS NO 
       // delete all, only delete one.
       function deleteRecord() {
-        // TODO
+        document.getElementById("recordForm"       ).style.display = "none";
+        document.getElementById("recordIDcontainer").style.display = "none";
+
+        let endpoint = document.getElementById("endpoint");
+        let output   = document.getElementById('output');
+
+        let id       = window.prompt("Enter record id");
+        fetch((endpoint.value + "/" + id), {method: "delete"})
+          .then(response => {
+          if(!response.ok) {
+            throw new Error (response.status + " " + response.statusText);
+          }
+          response.json().then(data => output.innerHTML = JSON.stringify(data));
+        })
+        .catch(error => {
+          output.innerHTML = error;
+        });
+
+        document.getElementById("action").value = "List All";
       }
+
+/******************************************************************************
+ *                          END OF STUDENT'S WORK
+ *****************************************************************************/
+
+
 
       window.addEventListener('DOMContentLoaded', () => {
         // Action Form Event Listener
