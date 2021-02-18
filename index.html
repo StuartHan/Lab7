@@ -87,21 +87,22 @@
       // The main difference from fetchOne() will be the URL you request from; check
       // the writeup to view the URL pattern for fetch one and fetch all
       function fetchAll() {
+        // clear input boxes
         document.getElementById("recordForm"       ).style.display = "none";
         document.getElementById("recordIDcontainer").style.display = "none";
 
-        let endpoint = document.getElementById("endpoint");
-        let output   = document.getElementById("output");
+        let endpoint = document.getElementById("endpoint"); // input link
+        let output   = document.getElementById("output");   // output HTML
 
         fetch(endpoint.value, {method: "GET"})
         .then(response => {
           if(!response.ok) {
-            throw new Error (response.status + " " + response.statusText);
+            throw new Error (response.status);
           }
           response.json().then(data => output.innerHTML = JSON.stringify(data));
         })
         .catch(error => {
-          output.innerHTML = error;
+          output.innerHTML = "Netwrok " + error;
         });
       }
 
@@ -112,22 +113,23 @@
       // The main difference from fetchAll() will be the URL you request from; check
       // the writeup to view the URL pattern for fetch one and fetch all
       function fetchOne() {
+        // clear input boxes
         document.getElementById("recordForm"       ).style.display = "none";
         document.getElementById("recordIDcontainer").style.display = "none";
 
-        let endpoint = document.getElementById("endpoint");
-        let output   = document.getElementById("output");
+        let endpoint = document.getElementById("endpoint"); // input link
+        let output   = document.getElementById("output");   // output HTML
 
         let id = window.prompt("Enter record id");
         fetch(endpoint.value + "/" + id, {method: "GET"})
         .then(response => {
           if(!response.ok) {
-            throw new Error (response.status + " " + response.statusText);
+            throw new Error (response.status);
           }
           response.json().then(data => output.innerHTML = JSON.stringify(data));
         })
         .catch(error => {
-          output.innerHTML = error;
+          output.innerHTML = "Netwrok " + error;
         });
 
         document.getElementById("action").value = "List All";
@@ -146,24 +148,28 @@
           return;
         }
 
-        let endpoint = document.getElementById("endpoint");
-        let output   = document.getElementById('output');
+        // clear input boxes
+        document.getElementById("recordForm"       ).style.display = "none";
+        document.getElementById("recordIDcontainer").style.display = "none";
+
+        let endpoint = document.getElementById("endpoint"); // input link
+        let output   = document.getElementById('output');   // output HTML
         
         let author   = document.getElementById('author');
         let title    = document.getElementById('title');
-        let property = {'author': author.value, 'title': title.value};
+        let property = {'author': author.value, 'title': title.value}; // new body
 
         fetch(endpoint.value, {method : "post", 
                                headers: {"Content-type": "application/json"}, 
                                body   : JSON.stringify(property)})
           .then(response => {
           if(!response.ok) {
-            throw new Error (response.status + " " + response.statusText);
+            throw new Error (response.status);
           }
           response.json().then(data => output.innerHTML = JSON.stringify(data));
         })
         .catch(error => {
-          output.innerHTML = error;
+          output.innerHTML = "Netwrok " + error;
         });
       }
 
@@ -180,12 +186,16 @@
           return;
         }
 
-        let endpoint = document.getElementById("endpoint");
-        let output   = document.getElementById('output');
+        // clear input boxes
+        document.getElementById("recordForm"       ).style.display = "none";
+        document.getElementById("recordIDcontainer").style.display = "none";
+
+        let endpoint = document.getElementById("endpoint"); // input link
+        let output   = document.getElementById('output');   // output HTML
         
         let author   = document.getElementById('author');
         let title    = document.getElementById('title');
-        let property = {'author': author.value, 'title': title.value};
+        let property = {'author': author.value, 'title': title.value}; // new body
         let recordID = document.getElementById('recordID');
 
         fetch((endpoint.value + "/" + recordID.value), {method : "put", 
@@ -193,12 +203,12 @@
                                                         body   : JSON.stringify(property)})
           .then(response => {
           if(!response.ok) {
-            throw new Error (response.status + " " + response.statusText);
+            throw new Error (response.status);
           }
           response.json().then(data => output.innerHTML = JSON.stringify(data));
         })
         .catch(error => {
-          output.innerHTML = error;
+          output.innerHTML = "Netwrok " + error;
         });
       }
 
@@ -220,12 +230,12 @@
         fetch((endpoint.value + "/" + id), {method: "delete"})
           .then(response => {
           if(!response.ok) {
-            throw new Error (response.status + " " + response.statusText);
+            throw new Error (response.status);
           }
           response.json().then(data => output.innerHTML = JSON.stringify(data));
         })
         .catch(error => {
-          output.innerHTML = error;
+          output.innerHTML = "Netwrok " + error;
         });
 
         document.getElementById("action").value = "List All";
